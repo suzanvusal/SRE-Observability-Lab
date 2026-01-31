@@ -1,0 +1,5 @@
+backend:
+  type: loki
+  loki:
+    host: loki.logging.svc.cluster.local
+    port: 3100
