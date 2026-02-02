@@ -1,0 +1,51 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: otel-collector
+  namespace: tracing
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: otel-collector
+  template:
+    metadata:
+      labels:
+        app: otel-collector
+    spec:
+      containers:
+        - name: otel-collector
+          image: otel/opentelemetry-collector:0.93.0
+          args: ["--config=/conf/otel-config.yaml"]
+          volumeMounts:
+            - name: config
+              mountPath: /conf
+      volumes:
+        - name: config
+          configMap:
+            name: otel-config
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: otel-config
+  namespace: tracing
+data:
+  otel-config.yaml: |
+    receivers:
+      otlp:
+        protocols:
+          grpc:
+          http:
+
+    exporters:
+      otlp:
+        endpoint: tempo.tracing.svc.cluster.local:4317
+        tls:
+          insecure: true
+
+    service:
+      pipelines:
+        traces:
+          receivers: [otlp]
+          exporters: [otlp]
