@@ -1,0 +1,9 @@
+tempo:
+  retention: 24h
+
+persistence:
+  enabled: true
+  size: 10Gi
+
+service:
+  type: ClusterIP
