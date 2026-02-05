@@ -14,6 +14,23 @@ prometheus:
     retention: 10d
     serviceMonitorSelectorNilUsesHelmValues: false
     podMonitorSelectorNilUsesHelmValues: false
+
+    additionalScrapeConfigs:
+      - job_name: "blackbox-http"
+        metrics_path: /probe
+        params:
+          module: [http_2xx]
+        static_configs:
+          - targets:
+            - http://sample-app.default.svc.cluster.local
+        relabel_configs:
+          - source_labels: [__address__]
+            target_label: __param_target
+          - target_label: __address__
+            replacement: blackbox-prometheus-blackbox-exporter.monitoring.svc.cluster.local:9115
+          - source_labels: [__param_target]
+            target_label: instance
+
     storageSpec:
       volumeClaimTemplate:
         spec:
