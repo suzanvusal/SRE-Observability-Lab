@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: blackbox-targets
+  namespace: monitoring
+data:
+  targets.yaml: |
+    - targets:
+      - http://sample-app.default.svc.cluster.local
+      labels:
+        service: sample-app
+        env: dev
