@@ -30,6 +30,12 @@ prometheus:
             replacement: blackbox-prometheus-blackbox-exporter.monitoring.svc.cluster.local:9115
           - source_labels: [__param_target]
             target_label: instance
+      
+       - job_name: "otel-metrics"
+        static_configs:
+          - targets:
+            - otel-metrics-collector.tracing.svc.cluster.local:9464
+
 
     storageSpec:
       volumeClaimTemplate:

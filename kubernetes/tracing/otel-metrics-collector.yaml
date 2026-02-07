@@ -1,0 +1,49 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: otel-metrics-collector
+  namespace: tracing
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: otel-metrics-collector
+  template:
+    metadata:
+      labels:
+        app: otel-metrics-collector
+    spec:
+      containers:
+        - name: otel-metrics
+          image: otel/opentelemetry-collector:0.93.0
+          args: ["--config=/conf/metrics-config.yaml"]
+          volumeMounts:
+            - name: config
+              mountPath: /conf
+      volumes:
+        - name: config
+          configMap:
+            name: otel-metrics-config
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: otel-metrics-config
+  namespace: tracing
+data:
+  metrics-config.yaml: |
+    receivers:
+      otlp:
+        protocols:
+          grpc:
+          http:
+
+    exporters:
+      prometheus:
+        endpoint: "0.0.0.0:9464"
+
+    service:
+      pipelines:
+        metrics:
+          receivers: [otlp]
+          exporters: [prometheus]
