@@ -125,6 +125,13 @@ sre-observability-lab/
 
 ---
 
+Prometheus → Metrics  ┐
+Loki → Logs           ├─→ Grafana → Correlation → Root Cause
+Tempo → Traces        ┘
+
+
+
+
 ## 👨‍💻 Author
 
 **Sujan Bhusal**  
