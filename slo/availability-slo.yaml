@@ -1,0 +1,8 @@
+groups:
+- name: availability-slo
+  rules:
+  - record: job:request_success_rate:ratio
+    expr: |
+      sum(rate(http_requests_total{status!~"5.."}[5m]))
+      /
+      sum(rate(http_requests_total[5m]))
