@@ -1,0 +1,8 @@
+groups:
+- name: latency-slo
+  rules:
+  - record: job:http_latency_slo:ratio
+    expr: |
+      sum(rate(http_request_duration_seconds_bucket{le="0.3"}[5m]))
+      /
+      sum(rate(http_request_duration_seconds_count[5m]))
