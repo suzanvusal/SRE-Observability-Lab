@@ -129,7 +129,39 @@ Prometheus → Metrics  ┐
 Loki → Logs           ├─→ Grafana → Correlation → Root Cause
 Tempo → Traces        ┘
 
+----
+SLOs, Error Budgets & Burn Rate Monitoring (Elite SRE Level)
+🎯 Objectives
 
+You will implement:
+
+Service Level Objectives (SLOs)
+
+Error Budget tracking
+
+Burn rate alerting using Prometheus + Alertmanager
+
+Real-world SRE alert strategy used by Google, Meta, Uber, Stripe
+
+sre-observability-lab/
+├── slo/
+│   ├── latency-slo.yaml
+│   ├── availability-slo.yaml
+│   └── burnrate-alerts.yaml
+
+
+---------
+Can your system survive failure?
+
+We will:
+
+Inject failures intentionally
+
+Validate Kubernetes self-healing
+
+Observe metrics + alerts triggering
+
+Prove SLO burn rate behavior under chaos
 
 
 ## 👨‍💻 Author
